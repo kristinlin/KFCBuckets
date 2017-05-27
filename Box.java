@@ -15,13 +15,29 @@ public class Box {
   public boolean remove(int takenValue){
    	possibleNums[takenValue - 1] = 0; 
     numPossible -= 1;
-    if (numPossible == 1) {isDefinite = true;}
+    if (numPossible == 1) {
+      isDefinite = true;
+      int index = 0;
+      while (possibleNums[index] == 0) {
+        index++;  
+      }
+      return true;
+    }
   }
     
   public boolean getIsDef() {
     return isDefinite;
   }
+  
+  public int getGuess(){
+    return guess;
+  }
 
+  public int getNumPossible(){
+    return numPossible;
+  }
+  
+  
   // possible guess number, defo if we know it's definite or not
   public boolean setGuess(int possible; boolean defo) {
     if (isDefinite) {
