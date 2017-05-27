@@ -1,10 +1,10 @@
 # KFCBuckets
 Carol, Fabiha, &amp; Kristin
 
-##Sudoku Solver
+## Sudoku Solver
 Solves a sudoku puzzle in terminal
 
-###Tasks:
+### Tasks:
 - [ ] Make a Box/Square Class
 - [x] Create an algoritm
 - [ ] Implement the algorithm
