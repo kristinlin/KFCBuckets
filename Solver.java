@@ -26,7 +26,7 @@ public class Solver {
 	}
 	for (int r = 0; r < puzzle.length; r ++){
 	    for (int c = 0; c < puzzle[0].length; c++){
-		BigBox[r/3][c/3].set(r%3,c%3,board[r][c]);
+		collections[r/3][c/3].set(r%3,c%3,board[r][c]);
 	    }
 	}
 	for (int r = 0; r < puzzle.length; r++){
@@ -96,12 +96,26 @@ public class Solver {
 	}
     }
 
+    public void removeFromBigBox(int value, int r, int c) {
+	int[] queue= collections[r/3][c/3].remove(value);
+        int a = 0;
+	while (queue[a] != -1) {
+	    int row = r-(r%3)+queue[a];
+	    int col = r-(r%3)+queue[a+1];
+	    int takenVal = board[row][col].getGuess();
+	    removeFromRow(takenVal, row);
+	    removeFromCol(takenVal, col);
+	}
+    }
+
     //for givens and definites
     public void assign(int newVal, int r, int c) {
 	Box temp = board[r][c];
 	temp.setGuess(newVal, true);
         removeFromRow(newVal, r);
 	removeFromCol(newVal, c);
+	removeFromBigBox(newVal, r, c);
+	
         //remove from the collection
     }
 
@@ -144,6 +158,21 @@ public class Solver {
      *backtrack and assign the next least one.
       =======================*/
     public void solve() {
+
+    }
+
+    public String toString() {
+	String retstr = "";
+	for (Box[] r : board){
+	    retstr += "\n";
+	    for (Box col : r){
+	        retstr += " " + col.getGuess();
+	    }
+	}
+	return retstr;
+    }
+    
+    public static void main(String[] args){
 
     }
     
