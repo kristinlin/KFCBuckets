@@ -39,7 +39,9 @@ public class Box {
 		index++;
 	    }
 	    setGuess(index+1, false);
+	    return true;
 	}
+	return false;
     }
     
     public boolean getIsDef() {

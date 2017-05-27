@@ -5,6 +5,7 @@ public class Solver {
     
     //~~~~~~~~~~~instance vars~~~~~~~~~~~~~~~~
     private Box[][] board;
+    private BigBox[][] collections;
     private int numDefinite;
     private final int max = 81;
     ///~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -105,7 +106,7 @@ public class Solver {
 	    if (isFinished) {
 		int takenVal = board[row][c].getGuess();
 		sRemoveFromRow(takenVal, row);
-		sRemoveFromCol(takenVal, c);
+		//sRemoveFromCol(takenVal, c);
 	    }
 	}
 	
@@ -117,9 +118,17 @@ public class Solver {
     }
 
     //check row to look for any missing values
-    public int[] checkC(int col) {
-	
-	
+    public int checkC(int col) {
+	int[] checker = {1,2,3,4,5,6,7,8,9};
+	for (int r = 0; r < 9; r ++){
+	    checker[board[r][col].getGuess() - 1] = 0;
+	}
+	for (int x = 0; x < 9; x++){
+	    if (checker[x] != 0){
+		return checker[x];
+	    }
+	}
+	return 0;
     }
     
     /*========================
