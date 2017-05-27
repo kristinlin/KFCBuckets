@@ -8,44 +8,61 @@ public class Box {
   public Box(){
     guess = 0;
     isDefinite = false;
-    possibleNums = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    possibleNums = new int[9];
+    for (int x = 1; x < 10; x ++){
+	possibleNums[x - 1] = x;
+    }
     numPossible = 9;
   }
 
-  public boolean remove(int takenValue){
-   	possibleNums[takenValue - 1] = 0; 
-    numPossible -= 1;
-    if (numPossible == 1) {
-      isDefinite = true;
-      int index = 0;
-      while (possibleNums[index] == 0) {
-        index++;  
-      }
-      return true;
+    public boolean remove(int takenValue){
+	possibleNums[takenValue - 1] = 0; 
+	numPossible -= 1;
+	if (numPossible == 1) {
+	    int index = 0;
+	    while (possibleNums[index] == 0) {
+		index++;  
+	    }
+	    setGuess(index + 1, true); 
+	    return true;
+	}
+	return false;
     }
-  }
-    
-  public boolean getIsDef() {
-    return isDefinite;
-  }
-  
-  public int getGuess(){
-    return guess;
-  }
 
-  public int getNumPossible(){
-    return numPossible;
-  }
-  
-  
-  // possible guess number, defo if we know it's definite or not
-  public boolean setGuess(int possible; boolean defo) {
-    if (isDefinite) {
-     return false; //you must backtrack b/c contradiction
+    public boolean sRemove(int takenValue) {
+	possibleNums[takenValue - 1] = possibleNums[takenValue-1] * -1;
+	numPossible -=1;
+	if (numPossible == 1) {
+	    //search for that last remaining number
+	    int index = 0;
+	    while (possibleNums[index] <= 0) {
+		index++;
+	    }
+	    setGuess(index+1, false);
+	}
     }
-    guess = possible;
-    isDefinite = defo;
-    return true;
-  }
-  
+    
+    public boolean getIsDef() {
+	return isDefinite;
+    }
+    
+    public int getGuess(){
+	return guess;
+    }
+    
+    public int getNumPossible(){
+	return numPossible;
+    }
+    
+    
+    // possible guess number, defo if we know it's definite or not
+    public boolean setGuess(int possible, boolean defo) {
+	if (isDefinite) {
+	    return false; //you must backtrack b/c contradiction
+	}
+	guess = possible;
+	isDefinite = defo;
+	return true;
+    }
+    
 }
