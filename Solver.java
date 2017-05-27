@@ -12,6 +12,7 @@ public class Solver {
     
     public Solver(){
 	board = new Box[9][9];
+	collections = new BigBox[3][3];
 	numDefinite = 0;
     }
     
@@ -21,6 +22,11 @@ public class Solver {
 	for (int r = 0; r < puzzle.length; r++){
 	    for (int c = 0; c < puzzle[0].length; c++){
 		board[r][c] = new Box();
+	    }
+	}
+	for (int r = 0; r < puzzle.length; r ++){
+	    for (int c = 0; c < puzzle[0].length; c++){
+		BigBox[r/3][c/3].set(r%3,c%3,board[r][c]);
 	    }
 	}
 	for (int r = 0; r < puzzle.length; r++){
