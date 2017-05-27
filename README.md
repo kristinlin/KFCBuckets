@@ -10,4 +10,4 @@ Solves a sudoku puzzle in terminal
 - [ ] Implement the algorithm
 
 ### Useful Links:
-[Box Class] (https://codeshare.io/aJpwwK)
+[Box Class](https://codeshare.io/aJpwwK)
