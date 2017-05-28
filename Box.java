@@ -15,30 +15,25 @@ public class Box {
     numPossible = 9;
   }
 
-    public boolean remove(int takenValue){
-
-	possibleNums[takenValue - 1] = 0; 
-	numPossible -= 1;
-	//System.out.println();
-	//for (int x : possibleNums) {
-	//    System.out.print(x);
-	//}
-	if (numPossible == 1) {
-	    int index = 0;
-	    while (possibleNums[index] == 0) {
-		index++;  
+    public void remove(int takenValue){
+	if (!isDefinite && possibleNums[takenValue-1] > 0) {
+	    possibleNums[takenValue - 1] = 0; 
+	    numPossible -= 1;
+	    if (numPossible == 1) {
+		int index = 0;
+		while (possibleNums[index] <= 0) {index++;}
+		setGuess(possibleNums[index], true); 
 	    }
-	    setGuess(possibleNums[index], true); 
-	    return true;
 	}
-	return false;
     }
 
+    /*
     public boolean sRemove(int takenValue) {
 	possibleNums[takenValue - 1] = possibleNums[takenValue-1] * -1;
 	numPossible -=1;
 
-    }
+    } 
+    */
 
     public boolean check(){
 	if (numPossible == 1) {
@@ -73,6 +68,9 @@ public class Box {
 	}
 	guess = possible;
 	isDefinite = defo;
+	if (defo == true) {
+	    numPossible = 1;
+	}
 	return true;
     }
     
