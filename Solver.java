@@ -117,6 +117,11 @@ public class Solver {
 	}
 	return cor;
     }
+
+    //assign for tentatives
+    public void assignT(int newGuess, int r, int c) {
+	//setGuess
+    }
     
     /*
 
@@ -130,11 +135,6 @@ public class Solver {
 		//sRemoveFromCol(takenVal, c);
 	    }
 	}
-    }
-    
-    //assign for tentatives
-    public void assignT(int newGuess, int r, int c) {
-	//setGuess
     }
 
     //check row to look for any missing values
