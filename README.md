@@ -9,5 +9,12 @@ Solves a sudoku puzzle in terminal
 - [x] Create an algoritm
 - [ ] Implement the algorithm
 
-### Useful Links:
-[Box Class](https://codeshare.io/aJpwwK)
+### Algo
+For each number added, all slots in row, col, and box will remove that possible slot number
+Then cehcks if any box has only one possible slot number, 
+Then adds, and repeat. 
+
+And then, find slot with least number of possibles, 
+choose first possibility, 
+co through step above until 
+contradiction - no possible numbers in one box
