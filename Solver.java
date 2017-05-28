@@ -98,25 +98,27 @@ public class Solver {
 	    }
 	}
     }
+
+    //find Box with least number of possibles
+    public int findLeast() {
+	int cor = 0;
+	int x = 9;
+	for (int r = 0; r < 9; r++) {
+	    for (int c = 0; c < 9; c++) {
+		if (!board[r][c].getIsDef()) {
+		    if (board[r][c].getNumPossible() == 2) {
+			return r*10 + c;
+		    }
+		    if (board[r][c].getNumPossible() < x) {
+			cor = r*10 + c;
+		    }
+		}
+	    }
+	}
+	return cor;
+    }
     
     /*
-    
-    public void removeFromBigBox(int value, int r, int c) {
-	int[] queue= collections[r/3][c/3].remove(value);
-        int a = 0;
-	while (queue[a] != -1) {
-	    System.out.println(this);
-	    int row = r-(r%3)+queue[a];
-	    int col = r-(r%3)+queue[a+1];
-	    int takenVal = board[row][col].getGuess();
-
-
-  //removeFromRow(takenVal, row);
-	    //removeFromCol(takenVal, col);
-	}
-    }
-
-  
 
     public void sRemoveFromRow(int value, int row) {
 	//for each element in this row
@@ -128,7 +130,6 @@ public class Solver {
 		//sRemoveFromCol(takenVal, c);
 	    }
 	}
-	
     }
     
     //assign for tentatives
@@ -180,8 +181,8 @@ public class Solver {
 	    Solver s = new Solver(inputFile);
 	    System.out.println("[2J");
 	    System.out.println(s);
+	    System.out.println(s.findLeast());
 	} catch (Exception e) {
-
 	}
 	    
     }
