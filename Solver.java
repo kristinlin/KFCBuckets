@@ -12,35 +12,18 @@ public class Solver {
     
     public Solver(){
 	board = new Box[9][9];
-	//collections = new BigBox[3][3];
 	numDefinite = 0;
     }
     
     public Solver(String inputFile){
 	this();
 	String[][] puzzle = readPuzzle(inputFile);
-	/*
-	for (int r = 0; r < 3; r++){
-	    for (int c = 0; c < 3; c ++){
-		collections[r][c] = new BigBox();
-	    }
-	}
-	*/
-
+	
 	for (int r = 0; r < puzzle.length; r++){
 	    for (int c = 0; c < puzzle[0].length; c++){
 		board[r][c] = new Box();
 	    }
 	}
-
-	/*
-	
-	for (int r = 0; r < 9; r ++){
-	    for (int c = 0; c < 9; c++){
-		collections[r/3][c/3].set(r%3,c%3,board[r][c]);
-	    }
-	}
-	*/
 
 	for (int r = 0; r < puzzle.length; r++){
 	    for (int c = 0; c < puzzle[0].length; c++){
@@ -89,14 +72,18 @@ public class Solver {
     public void removeFromRow(int value, int row){
 	//for each element in this row
 	for (int c = 0; c < 9; c ++){
-	   board[row][c].remove(value);
+	    if (board[row][c].remove(value) == true) {
+		assign (board[row][c].getGuess(), row, c);
+	    }
 	} 
     }
 
     public void removeFromCol(int value, int col){
 	//for each element in this column
 	for(int r = 0; r < 9; r++){
-	    board[r][col].remove(value);
+	    if (board[r][col].remove(value) == true) {
+		assign (board[r][col].getGuess(), r, col);
+	    }
 	}
     }
 
@@ -105,7 +92,9 @@ public class Solver {
 	c = c - (c%3); //corner box of collection
 	for (int row = r; row < r+3; row++) {
 	    for (int col = c; col < c+3; col++) {
-		board[r][c].remove(value);
+		if (board[row][col].remove(value) == true) {
+		    assign(board[row][col].getGuess(), row, col);
+		}
 	    }
 	}
     }
@@ -179,7 +168,7 @@ public class Solver {
 	for (Box[] r : board){
 	    retstr += "\n";
 	    for (Box col : r){
-	        retstr += "'" + col.getNumPossible()+ "'"  + col.getGuess() + " ";
+	        retstr += "'" + col.getNumPossible() + "'" + col.getGuess() + " ";
 	    }
 	}
 	return retstr;

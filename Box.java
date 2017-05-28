@@ -15,16 +15,18 @@ public class Box {
     numPossible = 9;
   }
 
-    public void remove(int takenValue){
+    public boolean remove(int takenValue){
 	if (!isDefinite && possibleNums[takenValue-1] > 0) {
 	    possibleNums[takenValue - 1] = 0; 
 	    numPossible -= 1;
 	    if (numPossible == 1) {
 		int index = 0;
 		while (possibleNums[index] <= 0) {index++;}
-		setGuess(possibleNums[index], true); 
+		setGuess(possibleNums[index], true);
+		return true;
 	    }
 	}
+	return false;
     }
 
     /*
