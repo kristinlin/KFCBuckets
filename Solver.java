@@ -19,20 +19,29 @@ public class Solver {
     public Solver(String inputFile){
 	this();
 	String[][] puzzle = readPuzzle(inputFile);
+	
+	for (int r = 0; r < 3; r++){
+	    for (int c = 0; c < 3; c ++){
+		collections[r][c] = new BigBox();
+	    }
+	}
+
 	for (int r = 0; r < puzzle.length; r++){
 	    for (int c = 0; c < puzzle[0].length; c++){
 		board[r][c] = new Box();
 	    }
 	}
-	for (int r = 0; r < puzzle.length; r ++){
-	    for (int c = 0; c < puzzle[0].length; c++){
+	
+	for (int r = 0; r < 9; r ++){
+	    for (int c = 0; c < 9; c++){
 		collections[r/3][c/3].set(r%3,c%3,board[r][c]);
 	    }
 	}
+
 	for (int r = 0; r < puzzle.length; r++){
 	    for (int c = 0; c < puzzle[0].length; c++){
-	        if (!(puzzle[r][c].equals("_"))){
-		    int given = Integer.parseInt(puzzle[r][c]);
+	        if (!(puzzle[c][r].equals("_"))){
+		    int given = Integer.parseInt(puzzle[c][r]);
 		    assign(given, r, c);
 		}
 	    }
@@ -60,37 +69,44 @@ public class Solver {
 		row++;
 	    } 
 	} catch( Exception e ) { System.out.println( "Error reading file" ); }
-
 	return puzzle;
 
     }
     public void removeFromRow(int value, int row){
+	
 	//for each element in this row
 	for (int c = 0; c < 9; c ++){
 	    //only bother if the value is not set
 	    if (!board[row][c].getIsDef()){
 		//check to see if removing a value solves the box
+
 		boolean isFinished = board[row][c].remove(value);
 		//if it does
 		if (isFinished){
+		    System.out.println(this);
 		    //do it all over again for each row & each column
 		    int takenVal = board[row][c].getGuess();
 		    removeFromRow(takenVal, row);
 		    removeFromCol(takenVal, c);
+		    //removeFromBigBox(takenVal, row, c);
 		}
 	    }
 	} 
     }
 
     public void removeFromCol(int value, int col){
+
 	//for each element in this column
 	for(int r = 0; r < 9; r++){
 	    if(!board[r][col].getIsDef()){
 		boolean isFinished = board[r][col].remove(value);
+		//System.out.println("\n" + r + " " + col);
 		if(isFinished){
+		    System.out.println(this);
 		    int takenVal = board[r][col].getGuess();
 		    removeFromRow(takenVal, r);
 		    removeFromCol(takenVal, col);
+		    // removeFromBigBox(takenVal, r, col);
 		}
 	    }
 	}
@@ -100,24 +116,26 @@ public class Solver {
 	int[] queue= collections[r/3][c/3].remove(value);
         int a = 0;
 	while (queue[a] != -1) {
+	    System.out.println(this);
 	    int row = r-(r%3)+queue[a];
 	    int col = r-(r%3)+queue[a+1];
 	    int takenVal = board[row][col].getGuess();
-	    removeFromRow(takenVal, row);
-	    removeFromCol(takenVal, col);
+	    //removeFromRow(takenVal, row);
+	    //removeFromCol(takenVal, col);
 	}
     }
 
     //for givens and definites
     public void assign(int newVal, int r, int c) {
-	Box temp = board[r][c];
-	temp.setGuess(newVal, true);
-        removeFromRow(newVal, r);
+	board[r][c].setGuess(newVal, true);
+	removeFromRow(newVal, r);
 	removeFromCol(newVal, c);
-	removeFromBigBox(newVal, r, c);
+	//removeFromBigBox(newVal, r, c);
 	
         //remove from the collection
     }
+
+    /*
 
     public void sRemoveFromRow(int value, int row) {
 	//for each element in this row
@@ -125,7 +143,7 @@ public class Solver {
 	    boolean isFinished = board[row][c].remove(value);
 	    if (isFinished) {
 		int takenVal = board[row][c].getGuess();
-		sRemoveFromRow(takenVal, row);
+		//sRemoveFromRow(takenVal, row);
 		//sRemoveFromCol(takenVal, c);
 	    }
 	}
@@ -151,15 +169,18 @@ public class Solver {
 	return 0;
     }
     
-    /*========================
+    ========================
      *pre: givens and definites determined from givens already assigned; 
      *function: Time to guess! Checks and finds box with least num possibles,
      *then assigns the least one tentatively. If there is a contradiction, 
      *backtrack and assign the next least one.
-      =======================*/
+      =======================
     public void solve() {
 
     }
+
+
+    */
 
     public String toString() {
 	String retstr = "";
@@ -173,7 +194,15 @@ public class Solver {
     }
     
     public static void main(String[] args){
+	try {
+	    String inputFile = args[0];
+	    Solver s = new Solver(inputFile);
+	    System.out.println("[2J");
+	    System.out.println(s);
+	} catch (Exception e) {
 
+	}
+	    
     }
     
 }

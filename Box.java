@@ -16,14 +16,19 @@ public class Box {
   }
 
     public boolean remove(int takenValue){
+
 	possibleNums[takenValue - 1] = 0; 
 	numPossible -= 1;
+	//System.out.println();
+	//for (int x : possibleNums) {
+	//    System.out.print(x);
+	//}
 	if (numPossible == 1) {
 	    int index = 0;
 	    while (possibleNums[index] == 0) {
 		index++;  
 	    }
-	    setGuess(index + 1, true); 
+	    setGuess(possibleNums[index], true); 
 	    return true;
 	}
 	return false;
@@ -32,6 +37,10 @@ public class Box {
     public boolean sRemove(int takenValue) {
 	possibleNums[takenValue - 1] = possibleNums[takenValue-1] * -1;
 	numPossible -=1;
+
+    }
+
+    public boolean check(){
 	if (numPossible == 1) {
 	    //search for that last remaining number
 	    int index = 0;
