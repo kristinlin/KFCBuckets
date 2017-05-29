@@ -22,3 +22,4 @@ contradiction - two same numbers in row, col, or collection
 
 ### Current State
 
+There are issues with the assign tentatively--specifically with setGuess of Box. Setting it with false will allow it to have numbers removed later on from its possibleNums. 
