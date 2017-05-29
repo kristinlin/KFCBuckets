@@ -5,16 +5,20 @@ Carol, Fabiha, &amp; Kristin
 Solves a sudoku puzzle in terminal
 
 ### Tasks:
-- [ ] Make a Box/Square Class
-- [x] Create an algoritm
-- [ ] Implement the algorithm
+- [ ] First Stage: load sudoku puzzle
+- [x] Second Stage: load givens; determine definites from givens
+- [ ] Third Stage: guess from a box with least number of possibles; determine "definite" from it until contradiction; backtrack if needed
 
 ### Algo
+
 For each number added, all slots in row, col, and box will remove that possible slot number
 Then cehcks if any box has only one possible slot number, 
 Then adds, and repeat. 
 
 And then, find slot with least number of possibles, 
 choose first possibility, 
-co through step above until 
-contradiction - no possible numbers in one box
+go through step above until 
+contradiction - two same numbers in row, col, or collection
+
+### Current State
+
