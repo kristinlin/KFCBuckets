@@ -119,9 +119,58 @@ public class Solver {
     }
 
     //assign for tentatives
-    public void assignT(int newGuess, int r, int c) {
-	//setGuess
+    public boolean assignT(int newGuess, int r, int c) {
+	//check if this number already exists in row/col/collection
+	//if so, return false
+	//if max is hit; then return true
+	//setsGuess; but makes sure that numPossible is not reduced to 1
+	//sremoveFromRow (which makes sure that it doesn't go on a tangent)
+	//sremoveFromCol (but returns the coors of the new "definite")
+	//sremoveFromCollection
+	//if there are no coors return true; solve will see it's not max
+	//if (assignT with new coors is true) 
+	//if false; backtrack it
+	return true;
     }
+
+    public void backTrack(int val, int r, int c) {
+	board[r][c].setGuess(0, false);
+	returnToRow(val, r);
+	returnToCol(val, c);
+	returnToCollection(val, r, c);
+    }
+
+    public void returnToRow(int val, int r) {
+	for (int col = 0; col < 9; col++) {
+	    if (!board[r][col].getIsDef() && board[r][col].getPNum(val-1) < 0) {
+		board[r][col].setPNum(val-1);
+	    }
+	}
+    }
+
+    
+    public void returnToCol(int val, int c) {
+	for (int row = 0; row < 9; row++) {
+	    if (!board[row][c].getIsDef() && board[row][c].getPNum(val-1) < 0) {
+		board[row][c].setPNum(val-1);
+	    }
+	}
+    }
+
+    public void returnToCollection(int val, int r, int c) {
+	r = r - (r%3);
+	c = c - (c%3);
+	for (int row = r; row < r+3; row++) {
+	    for (int col = c; col < c+3; col++) {
+		if (!board[r][c].getIsDef() &&
+		    board[r][c].getPNum(val-1) < 0) {
+		    board[r][c].setPNum(val-1);
+		}
+	    }
+	}
+    }
+
+    
     
     /*
 
@@ -157,8 +206,13 @@ public class Solver {
      *then assigns the least one tentatively. If there is a contradiction, 
      *backtrack and assign the next least one.
       =======================
-    public void solve() {
-
+    public boolean solve() {
+    //look for least
+    //for the numbers in the least box
+    //assignT == true 
+    //check the max; if max is 100; well done! return true
+    //if its not then if (solve() == true)  again
+    //if 
     }
 
 
@@ -169,7 +223,8 @@ public class Solver {
 	for (Box[] r : board){
 	    retstr += "\n";
 	    for (Box col : r){
-	        retstr += "'" + col.getNumPossible() + "'" + col.getGuess() + " ";
+	        //retstr += "'" + col.getNumPossible() + "'"
+		retstr += col.getGuess() + " ";
 	    }
 	}
 	return retstr;

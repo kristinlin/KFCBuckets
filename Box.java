@@ -75,5 +75,16 @@ public class Box {
 	}
 	return true;
     }
+
+
+    public int getPNum(int val) {
+	return possibleNums[val];
+    }
+
+    public void setPNum(int val) {
+	if (possibleNums[val] < 0) {
+	    possibleNums[val] = possibleNums[val] * -1;
+	}
+    }
     
 }
