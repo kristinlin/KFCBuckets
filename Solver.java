@@ -14,7 +14,9 @@ public class Solver {
 	board = new Box[9][9];
 	numDefinite = 0;
     }
-    
+
+    //constructor
+    //places givens and definites from givens
     public Solver(String inputFile){
 	this();
 	String[][] puzzle = readPuzzle(inputFile);
@@ -60,9 +62,13 @@ public class Solver {
 
     }
 
+
+    //~~~~~~~~~~~~~~~~~GIVENS AND DEFINITES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
     //for givens and definites
     public void assign(int newVal, int r, int c) {
 	board[r][c].setGuess(newVal, true);
+	max--;
 	removeFromRow(newVal, r);
 	removeFromCol(newVal, c);
 	removeFromCollection(newVal, r, c);
@@ -99,6 +105,31 @@ public class Solver {
 	}
     }
 
+    //~~~~~~~~~~~~~~~~~~~~~GUESSING~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+    /* ========================
+     *pre: givens and definites determined from givens already assigned; 
+     *function: Time to guess! Checks and finds box with least num possibles,
+     *then assigns the least one tentatively. If there is a contradiction, 
+     *backtrack and assign the next least one.
+     ======================= */
+    public boolean solve() {
+
+	int nextBox = findLeast();
+	//coors for the least box
+	int c = nextBox % 10;
+	int r = nextbox/10;
+	
+
+	//look for least
+	//for the numbers in the least box
+	//assignT == true 
+	//check the max; if max is 100; well done! return true
+	//if its not then if (solve() == true)  again
+	//if 
+    }
+    
     //find Box with least number of possibles
     public int findLeast() {
 	int cor = 0;
@@ -120,8 +151,26 @@ public class Solver {
 
     //assign for tentatives
     public boolean assignT(int newGuess, int r, int c) {
-	//check if this number already exists in row/col/collection
-	//if so, return false
+	//check for existing contradictions
+	if (check(r, c) == false) {
+	    return false;
+	}
+	//is this your last number?
+	if (max == 1) {
+	    board[r][c].setGuess(newGuess, true);
+	    max--;
+	    return true;
+	}
+	else {
+	    int coors = 0;
+	    board[r][c].setGuess(newGuess, false);
+	    //do separately because i'm scared of repeats
+	    coors = sRemoveFromRow(r);
+	    
+
+	    //coors += sRemoveFromCol(c);
+	    //coors += sRemoveFromCollection(r,c);
+	}
 	//if max is hit; then return true
 	//setsGuess; but makes sure that numPossible is not reduced to 1
 	//sremoveFromRow (which makes sure that it doesn't go on a tangent)
@@ -133,8 +182,74 @@ public class Solver {
 	return true;
     }
 
+    
+
+    //~~~~~~~~~~~~~~~~CHECKS FOR CONTRADICTION~~~~~~~~~~~~~~~~~~
+
+    //check if this number already exists in row/col/collection
+    //true == you're good to go
+    //false == bad, it exists already
+    public boolean check(int r, int c) {
+	return checkR(r) && checkC(c) && checkCollect(r, c);
+    }
+    
+    //checks row
+    public boolean checkR(int r) {
+	boolean[] list = new boolean[9];
+	for (int x = 0; x < list.size(); x++) {
+	    boolean[x] = false;
+	}
+	for (int col = 0; col < 9; col++) {
+	    if (list[board[r][col].getGuess()-1] == true;) {
+		return false;
+	    }
+	    else (list[board[r][col].getGuess()-1] = true;)
+	}
+	return true;
+    }
+
+    //checks column
+    public boolean checkC(int c) {
+	boolean[] list = new boolean[9];
+	for (int x = 0; x < list.size(); x++) {
+	    boolean[x] = false;
+	}
+	for (int row = 0; row < 9; row++) {
+	    if (list[board[row][c].getGuess()] == true) {
+		return false;
+	    }
+	    else {
+		list[board[row][c].getGuess()] = true;
+	    }
+	}
+	return true;
+    }
+
+    //check collection
+    public boolean checkCollection(int r, int c) {
+	//top left corner of collection
+	r = r - (r%3);
+	c = c - (c%3);
+	boolean[] list = new boolean[9];
+	for (int x = 0; x < list.size(); x++) {
+	    boolean[x] = false;
+	}
+	for (int row = r; row < r+3; row++) {
+	    for (int col = c; col < c+3; col++) {
+		if (list[board[row][col].getGuess()] == true) {
+		    return false;
+		}
+		else {list[board[row][col].getGuess()] = false;}
+	    }
+	}
+	return true;
+    }
+
+    //~~~~~~~~~~~~~~~~~~~~~BACKTRACKING~~~~~~~~~~~~~~~~~~~~~~~~
+        
     public void backTrack(int val, int r, int c) {
 	board[r][c].setGuess(0, false);
+	max++;
 	returnToRow(val, r);
 	returnToCol(val, c);
 	returnToCollection(val, r, c);
@@ -199,24 +314,12 @@ public class Solver {
 	}
 	return 0;
     }
-    
-    ========================
-     *pre: givens and definites determined from givens already assigned; 
-     *function: Time to guess! Checks and finds box with least num possibles,
-     *then assigns the least one tentatively. If there is a contradiction, 
-     *backtrack and assign the next least one.
-      =======================
-    public boolean solve() {
-    //look for least
-    //for the numbers in the least box
-    //assignT == true 
-    //check the max; if max is 100; well done! return true
-    //if its not then if (solve() == true)  again
-    //if 
-    }
-
-
     */
+
+    
+
+
+
 
     public String toString() {
 	String retstr = "";

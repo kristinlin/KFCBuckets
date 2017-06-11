@@ -15,6 +15,7 @@ public class Box {
     numPossible = 9;
   }
 
+    //returns true if the box has turned definite
     public boolean remove(int takenValue){
 	if (!isDefinite && possibleNums[takenValue-1] > 0) {
 	    possibleNums[takenValue - 1] = 0; 
